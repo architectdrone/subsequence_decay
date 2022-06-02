@@ -205,6 +205,19 @@ def f_i_estimation(i, r):
         return ceil(r/2)-1
     return f_i_positive(i, r) - f_i_negs(i, r)
 
+def f_i_estimation_simplified(i, r):
+    if (f_i_adjusted_r(i, r) < 0):
+        return 0
+    
+    if (i == 1):
+        return ceil(r/2)-1
+
+    term_1 = (3*floor((r+2)/(i+1)))
+    term_2 = min(3, (r+2)%(i+1))
+    term_3 = -1*floor((r-1)/i)
+    term_4 = -4
+    return term_1 + term_2 +term_3 +term_4
+
 def f_i_adjusted_r(i, r):
     return r-i-2
 
@@ -277,8 +290,6 @@ def range_test(expected_function, actual_function, test_scope):
             if expected_function(i, r) != actual_function(i, r):
                 print(f"FAILED. i = {i}, r = {r}, expected = {expected_function(i, r)}, actual = {actual_function(i, r)}")
 
-
-
 INITIAL = [1,1,1,17]
 
 #print(get_decay_number(3, 17))
@@ -295,7 +306,7 @@ r_when_n1_is_2 = lambda r: r_when_n1_is_1(r) + floor((r/2)-1)
 #f_ii_analysis(6)
 #compare_f_i(7)
 
-range_test(f_ii, f_ii_estimation, 100)
+range_test(f_i, f_i_estimation_simplified, 40)
 
 # I_TO_CHECK = 5
 # for r_high in range(20):
